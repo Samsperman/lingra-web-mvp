@@ -1,0 +1,232 @@
+export const cardTemplates = {
+  meaning: {
+    front: 'The morning call has moved to 4 p.m. What is the new time?',
+    back: '4 p.m. «Has moved to» вводит новое время, даже если в тексте указано прежнее.',
+  },
+  destination: {
+    front: 'Could we move our interview ___ Monday?',
+    back: 'to. «Move the interview to Monday» — перенести собеседование на понедельник.',
+  },
+  suggestion: {
+    front: 'Как спросить, подходит ли коллегам среда в два?',
+    back: 'Does Wednesday at two work for you? «Work for you» значит «вам подходит».',
+  },
+}
+
+export const diagnosis = [
+  {
+    id: 'diagnosis-time',
+    type: 'qna',
+    title: 'Найдите новое время',
+    passage: 'Our Tuesday call has moved to Thursday at 3 p.m.',
+    sourcePolicy: 'required',
+    prompt: 'When is the call now? Ответьте по-английски, назвав день и время.',
+    placeholder: 'День и время по-английски',
+    answers: ['Thursday at 3 pm', 'Thursday at three pm', 'Thursday 3 pm', 'Thursday at 3', 'Thursday at three', '3 pm on Thursday', 'On Thursday at 3 pm', 'On Thursday at 3', 'It is on Thursday at 3 pm', 'The call is on Thursday at 3 pm'],
+    wrongAnswers: ['Tuesday', 'Tuesday at 3 pm', 'Tuesday at 3', 'Thursday at 3 am'],
+    explanation: 'Новое время — Thursday at 3 p.m. Конструкция «has moved to» указывает, на какой день перенесли звонок.',
+    card: 'meaning',
+  },
+  {
+    id: 'diagnosis-move',
+    type: 'grammar',
+    title: 'Поставьте предлог',
+    prompt: 'Could we move our meeting ___ Friday?',
+    options: ['at', 'to', 'by'],
+    answers: ['to'],
+    explanation: 'С «move» используйте «to», чтобы назвать новый день: «move our meeting to Friday».',
+    card: 'destination',
+  },
+  {
+    id: 'diagnosis-suggestion',
+    type: 'quiz',
+    title: 'Предложите время коллеге',
+    prompt: 'Как спросить по-английски, подходит ли пятница в десять?',
+    options: ['Can you work on Friday until ten?', 'Does Friday at ten work for you?', 'Is it already ten on Friday?'],
+    answers: ['Does Friday at ten work for you?'],
+    explanation: '«Does Friday at ten work for you?» — естественный способ спросить, подходит ли это время.',
+    card: 'suggestion',
+  },
+]
+
+const reading = [
+  {
+    id: 'meaning-demo',
+    type: 'qna',
+    title: 'Прочитайте сообщение',
+    passage: 'The product demo was on Monday, but it is now on Wednesday at noon.',
+    sourcePolicy: 'required',
+    prompt: 'Когда теперь покажут продукт?',
+    options: ['В понедельник в полдень', 'В среду в полдень', 'В среду вечером'],
+    answers: ['В среду в полдень'],
+    explanation: 'Слова «it is now on» вводят новый день, а «at noon» означает «в полдень».',
+    card: 'meaning',
+  },
+  {
+    id: 'meaning-checkin',
+    type: 'qna',
+    title: 'Уточните день звонка',
+    passage: 'We cannot meet on Friday. Let’s have the check-in on Monday morning instead.',
+    sourcePolicy: 'required',
+    prompt: 'Когда предлагают созвониться?',
+    options: ['В пятницу утром', 'В понедельник вечером', 'В понедельник утром'],
+    answers: ['В понедельник утром'],
+    explanation: '«Instead» значит «вместо этого». Новое предложение — Monday morning.',
+    card: 'meaning',
+  },
+  {
+    id: 'meaning-briefing',
+    type: 'qna',
+    title: 'Сверьте новое расписание',
+    passage: 'The briefing is no longer at 9. It has moved to 11 a.m. on the same day.',
+    sourcePolicy: 'required',
+    prompt: 'В какое время пройдёт брифинг?',
+    options: ['В 11 утра', 'В 9 утра', 'В 11 вечера'],
+    answers: ['В 11 утра'],
+    explanation: '«No longer» отменяет прежнее время. После «moved to» стоит новое — 11 a.m.',
+    card: 'meaning',
+  },
+]
+
+function gap(id, prompt, options) {
+  return {
+    id,
+    type: 'grammar',
+    title: 'Назовите новое время',
+    prompt,
+    options,
+    answers: ['to'],
+    hint: 'Вспомните, какой предлог вводит новый день после «move».',
+    explanation: '«Move to» вводит новое время. «At» можно поставить перед часом внутри выражения «to Monday at five».',
+    card: 'destination',
+  }
+}
+
+function confirmation(id, title, prompt, accepted, example) {
+  return {
+    id,
+    type: 'role_play',
+    title,
+    prompt,
+    placeholder: 'Ваша реплика по-английски',
+    answers: accepted,
+    hint: 'Назовите день и время, затем спросите, удобно ли это, или подтвердите предложенный вариант.',
+    explanation: example,
+  }
+}
+
+export const lessonSteps = {
+  meaning: {
+    id: 'meaning',
+    type: 'qna',
+    title: 'Найти новое время',
+    description: 'Отделите прежнюю договорённость от новой.',
+    explanation: 'Когда встречу переносят, новое время часто стоит после «moved to» или «now». Например, «We used to meet at two, but it’s now at five». Встреча будет в пять.',
+    items: reading,
+    required: 2,
+  },
+  destination: {
+    id: 'destination',
+    type: 'grammar',
+    title: 'Назвать новое время',
+    description: 'Потренируйте предлог после move.',
+    explanation: '«Move the meeting to Monday» значит перенести встречу на понедельник. «Meet on Monday» значит встретиться в понедельник. Здесь «to» указывает, куда сдвигается встреча.',
+    items: [
+      gap('move-call', 'Could we move the call ___ Wednesday at noon?', ['to', 'at', 'by']),
+      gap('move-review', 'Let’s move the review ___ Monday afternoon.', ['on', 'by', 'to']),
+      gap('move-demo', 'We need to move the demo ___ Thursday morning.', ['at', 'to', 'on']),
+    ],
+    required: 2,
+  },
+  shadowing: {
+    id: 'shadowing',
+    type: 'shadowing',
+    title: 'Повторить фразу',
+    description: 'Послушайте образец и повторите его вслух.',
+    explanation: 'Прослушайте всю фразу и повторите её после паузы. Обратите внимание, как связаны «move the call» и «to Friday».',
+    items: [{
+      id: 'shadowing-move',
+      type: 'shadowing',
+      title: 'Повторите за образцом',
+      prompt: 'Послушайте реплику и повторите её. Если микрофон недоступен, запишите слова по памяти.',
+      sample: 'Could we move the call to Friday?',
+      placeholder: 'Какие слова прозвучали?',
+      answers: ['Could we move the call to Friday?'],
+      explanation: 'Образец звучит так: «Could we move the call to Friday?» Можно прослушать его снова.',
+    }],
+    required: 1,
+  },
+  conversation: {
+    id: 'conversation',
+    type: 'role_play',
+    title: 'Договориться с коллегой',
+    description: 'Предложите время и подтвердите вариант собеседника.',
+    explanation: 'Чтобы свериться с коллегой, можно сказать «Does Tuesday at four work for you?». Чтобы принять предложение, ответьте «That works for me» и назовите время.',
+    items: [
+      confirmation(
+        'role-propose-friday',
+        'Предложите новый слот',
+        'Коллега говорит: «Sorry, I can’t make it on Thursday.» Спросите, подходит ли ему пятница в одиннадцать.',
+        ['Does Friday at eleven work for you?', 'Does Friday at 11 work for you?', 'Would Friday at eleven work for you?', 'Would Friday at 11 work for you?', 'Can we meet on Friday at eleven?', 'Can we meet on Friday at 11?', 'How about Friday at eleven?', 'How about Friday at 11?', 'Is Friday at eleven good for you?', 'Is Friday at 11 good for you?'],
+        'Подойдёт, например: «Does Friday at eleven work for you?»',
+      ),
+      confirmation(
+        'role-confirm-monday',
+        'Подтвердите время',
+        'Коллега спрашивает: «How about Monday at two instead?» Подтвердите, что понедельник в два вам подходит.',
+        ['Monday at two works for me', 'Monday at 2 works for me', 'Yes, Monday at two works for me', 'Yes, Monday at 2 works for me', 'Monday at two is good for me', 'Monday at 2 is good for me', 'Monday at two is fine', 'Monday at 2 is fine', 'Yes, I can meet on Monday at two', 'Yes, I can meet on Monday at 2'],
+        'Подойдёт, например: «Monday at two works for me.»',
+      ),
+      confirmation(
+        'role-propose-wednesday',
+        'Предложите время созвона',
+        'Коллега говорит: «The Tuesday slot is already booked.» Предложите среду в четыре.',
+        ['Does Wednesday at four work for you?', 'Does Wednesday at 4 work for you?', 'Would Wednesday at four work for you?', 'Would Wednesday at 4 work for you?', 'Could we meet on Wednesday at four?', 'Could we meet on Wednesday at 4?', 'How about Wednesday at four?', 'How about Wednesday at 4?', 'Can we meet on Wednesday at four?', 'Can we meet on Wednesday at 4?'],
+        'Подойдёт, например: «Could we meet on Wednesday at four?»',
+      ),
+    ],
+    required: 2,
+  },
+  transfer: {
+    id: 'transfer',
+    type: 'quiz',
+    title: 'Проверить себя',
+    description: 'Примените изученное в двух новых ситуациях.',
+    explanation: 'Проверьте, сможете ли вы выбрать формулировку и понять новое время в незнакомых ситуациях.',
+    items: [
+      {
+        id: 'quiz-demo',
+        type: 'quiz',
+        title: 'Перенесите демонстрацию',
+        prompt: 'Вы хотите перенести демонстрацию на вторник. Как сформулировать просьбу?',
+        options: ['Could we move the demo to Tuesday?', 'Will the demo last until Tuesday?', 'Could we cancel the Tuesday demo?'],
+        answers: ['Could we move the demo to Tuesday?'],
+        explanation: '«Move the demo to Tuesday» означает «перенести демонстрацию на вторник».',
+        card: 'destination',
+      },
+      {
+        id: 'quiz-tour',
+        type: 'quiz',
+        title: 'Уточните время экскурсии',
+        passage: 'The office tour has moved from Tuesday afternoon to Thursday at 11 a.m.',
+        sourcePolicy: 'required',
+        prompt: 'Какое время вы запишете в календарь?',
+        options: ['Tuesday afternoon', 'Thursday at 11 am', 'Thursday at 11 pm'],
+        answers: ['Thursday at 11 am'],
+        explanation: '«From» вводит прежнее время. Новое указано после «to» — Thursday at 11 a.m.',
+        card: 'meaning',
+      },
+      {
+        id: 'quiz-interview',
+        type: 'quiz',
+        title: 'Спросите об удобном времени',
+        prompt: 'Как спросить, подойдёт ли человеку собеседование в среду в полдень?',
+        options: ['Are you working on Wednesday at noon?', 'Will you finish by noon on Wednesday?', 'Does Wednesday at noon work for you?'],
+        answers: ['Does Wednesday at noon work for you?'],
+        explanation: '«Does Wednesday at noon work for you?» спрашивает, подходит ли предложенное время.',
+        card: 'suggestion',
+      },
+    ],
+    required: 2,
+  },
+}
