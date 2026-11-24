@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f2ea">
+  <meta name="description" content="Lingra помогает практиковать английский на конкретной жизненной задаче.">
+  <title>Lingra — английский для ваших задач</title>
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.mjs" type="module"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">К содержанию</a>
+  <header class="site-header">
+    <div class="frame header-inner">
+      <a href="#home" class="brand" aria-label="Lingra, главная">
+        <img src="./icon.svg" width="32" height="32" alt="">
+        <span lang="en">Lingra</span>
+      </a>
+      <nav class="landing-nav" aria-label="Навигация по сайту">
+        <a class="desktop-link" href="#how">Как проходит урок</a>
+        <a class="button secondary small" href="#app" data-start>Попробовать</a>
+      </nav>
+      <nav class="app-nav" aria-label="Учебная навигация" hidden>
+        <a href="#app">Занятие</a>
+        <a href="#progress">Прогресс</a>
+        <a href="#review">Повторы</a>
+        <a href="#sessions">Сессии</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div id="landing">
+      <section class="frame hero">
+        <div class="hero-copy">
+          <h1>Английский<br> для <em>ваших задач</em></h1>
+          <p>Расскажите, что хотите уметь. Lingra проверит, что уже получается, и подберёт упражнения под ваш ответ.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#app" data-start>Попробовать урок</a>
+            <span>Без регистрации</span>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="visual-top"><span>Перенос встречи</span></div>
+          <article class="preview-question" aria-labelledby="preview-prompt">
+            <div class="preview-meta"><span class="pill">Вопрос по смыслу</span></div>
+            <blockquote lang="en">Our Wednesday call has <strong>moved to</strong> Friday at 10 a.m.</blockquote>
+            <h2 id="preview-prompt">Когда состоится звонок?</h2>
+            <div class="preview-options" role="group" aria-labelledby="preview-prompt">
+              <button type="button" class="option" data-preview-answer="wednesday" aria-pressed="false">В среду</button>
+              <button type="button" class="option" data-preview-answer="friday" aria-pressed="false">В пятницу</button>
+            </div>
+            <p id="preview-feedback" class="preview-feedback" role="status"></p>
+          </article>
+          <div class="visual-bottom">Пример вопроса о встрече</div>
+        </div>
+      </section>
+
+      <section class="frame process" id="how" aria-labelledby="how-title">
+        <h2 id="how-title">Как проходит урок</h2>
+        <ol class="steps">
+          <li><h3>Задайте цель</h3><p>Например, договориться о новом времени встречи на английском.</p></li>
+          <li><h3>Ответьте на вопросы</h3><p>Прочитайте короткое сообщение, заполните пропуск и выберите подходящую реплику.</p></li>
+          <li><h3>Примените на практике</h3><p>Следуйте плану, ответьте в новой ситуации и вернитесь к карточкам по ошибкам.</p></li>
+        </ol>
+      </section>
+
+      <section class="frame voice-section" aria-labelledby="voice-title">
+        <img class="learner-photo" src="./assets/learner.webp" alt="Ученица в наушниках за ноутбуком" width="1020" height="680" loading="lazy">
+        <div>
+          <h2 id="voice-title">Произнесите ответ вслух</h2>
+          <p>Послушайте образец, попробуйте свою реплику и отредактируйте расшифровку перед отправкой. В упражнениях можно также ввести ответ с клавиатуры.</p>
+          <a class="button secondary" href="#app" data-start>Начать занятие</a>
+        </div>
+      </section>
+    </div>
+    <div id="workspace" class="frame workspace" hidden>
+      <p class="notice" id="storage-warning" role="status" hidden>Браузер не сохранил изменения. Продолжить занятие можно, пока эта вкладка открыта.</p>
+      <div id="screen"></div>
+    </div>
+    <noscript><p class="frame notice">Для интерактивных упражнений включите JavaScript в браузере.</p></noscript>
+  </main>
+  <footer class="site-footer">
+    <div class="frame footer-inner">
+      <a class="brand" href="#home" aria-label="Lingra, главная"><span lang="en">Lingra</span></a>
+      <p>Веб-демо Lingra</p>
+      <a href="#sessions">Мои данные</a>
+    </div>
+  </footer>
+</body>
+</html>
